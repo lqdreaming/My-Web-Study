@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./ajaxForm.css">
+    <script src="./ajaxForm.js"></script>
+	<title>企事业单位报名网</title>
+</head>
+<body>
+	<figure>
+	<img src="./yt.gif">
+	</figure>
+	<section>
+	<p>当前位置：<span><a href="http://localhost:8080/ajaxForm/ajaxExample.html">考生首页</span></a> -> 考生注册信息</p>
+	<form>
+		<div>
+			<label>姓名:</label>
+			<input type="text" id="staffName">*
+		</div>
+		<div>
+			<label>身份证号:</label>
+			<input type="password" id="staffNumber">*
+		</div>
+		<div>
+			<label>密码:</label>
+			<input type="password" id="staffPassword">*
+		</div>
+		<div>
+			<label>确认密码:</label>
+			<input type="password"  id="staffConformPassword">*
+		</div>
+		<div>
+			<label>输入验证码</label>
+			<input type="text" id="staffindentify">*
+			<span  class="indentify"><span id="image"></span><span id="refresh">刷新</span>
+			</span>
+		</div>
+	<div>考生类别：*
+		<select id="staffType">
+  		<option value="应届生">应届生</option>
+  		<option value="往届生">往届生</option>
+  		<option value="在职员工">在职员工</option>
+  		<option value="在职公务员">在职公务员</option>
+		</select>
+	</div>
+	<div>学历: *
+		<select id="staffAcaddmic">
+  		<option value="专科生">专科生</option>
+  		<option value="本科生">本科生</option>
+  		<option value="硕士">硕士</option>
+  		<option value="博士">博士</option>
+		</select>
+	</div>
+	<div>性别: *
+	<select id="staffSex">
+  		<option value="男">男</option>
+  		<option value="女">女</option>
+	</select>
+	</div>
+	<div>
+	<label>民族:</label>
+		<input type="text" id="staffPeople">*
+	</div>
+	<div>
+	<label>籍贯:</label>
+		<input type="text" id="staffCountry">*
+	</div>
+	<div>婚姻状况: *
+	<select id="staffMarry">
+		<option value="未婚">未婚</option>
+  		<option value="已婚">已婚</option>
+	</select>
+	</div>
+	<div>
+	<label>通讯地址:</label>
+		<input type="text" id="staffAddress">*
+	</div>
+	<div>
+	<label>邮政编码:</label>
+		<input type="password" id="staffEncode">*
+	</div>
+	<div>
+	<label>手机号码:</label>
+		<input type="password" id="staffTelephoneNum">*
+	</div>
+	<div>
+	<label>电话号码:</label>
+		<input type="password" id="staffTelephoneCallNum">
+	</div>
+	<div>
+	<label>Email:</label>
+		<input type="text" id="staffEmail">*
+	</div>
+	<div id="submitsearch">
+		<input type="button" id="sub" value="提交">
+		<input type="button" id="subsearch" value="查询">
+	</div>
+	<p id="createResult"></p>
+	</form>
+	<p id="notice">注意：1.* 项为必填项;<span class="searchGuid">2.查询请根据身份证号查找;</span> 3.必须填写固定电话和手机号码两项中的任意一项</p>
+	</section>
+	<footer>
+		<p>中华人民共和国人力资源和社会保障部版权所有</p>
+		<p>本站建议使用IE浏览器 分辨率1024×768</p>
+	</footer>
+</body>
+</html>
