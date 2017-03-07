@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>canvas基本图像库</title>
+<script>
+window.onload=function(){
+	canvas=document.getElementById('canvas');
+	canvas.width=800;
+	canvas.height=800;
+	context=canvas.getContext('2d');
+	//drawLine(context,100,100,200,200,4,"red");
+	//drawRect(context,50,50,10,10,3,"red","blue");
+	//drawArc(context,150,150,50,0*Math.PI,Math.PI,true,2,"red","blue");
+	//drawRound(context,150,150,50,true,2,"red","blue");
+	//drawStar(context,400,400,150,300,1,"red","blue");
+	drawRect(context,0,0,canvas.width,canvas.height,1,"white","black");
+	drawStarSky(context);
+	drawMoon(context);
+}
+function drawLine(cxt,xb,yb,xe,ye,k,c){
+	cxt.lineWidth=k;
+	cxt.beginPath()
+	cxt.moveTo(xb,yb);
+	cxt.lineTo(xe,ye);
+	cxt.strokeStyle=c;
+	cxt.stroke();
+	cxt.closePath();
+}
+function drawRect(cxt,xb,yb,width,height,k,c,col){
+	cxt.lineWidth=k;
+	cxt.beginPath()	
+	cxt.strokeStyle=c;
+	cxt.rect(xb,yb,width,height);
+	cxt.fillStyle=col;
+	cxt.fill();
+	cxt.stroke();
+	cxt.closePath();
+}
+function drawArc(cxt,xb,yb,r,sAng,eAng,antik,k,c,col){
+	cxt.beginPath();
+	cxt.arc(xb,yb,r,sAng,eAng,antik)                   
+	cxt.strokeStyle=c;
+	cxt.fillStyle=col;
+	cxt.fill();
+	cxt.lineWidth=k;
+	cxt.stroke();
+	cxt.closePath();
+}
+function drawRound(cxt,xb,yb,r,antik,k,c,col){
+	cxt.beginPath();
+	cxt.arc(xb,yb,r,0*Math.PI,2*Math.PI,antik);  
+	cxt.strokeStyle=c;
+	cxt.fillStyle=col;
+	cxt.fill();
+	cxt.lineWidth=k;
+	cxt.stroke();
+	cxt.closePath();
+}
+function drawStar(cxt,x,y,r,R,k,c,col){ 
+    cxt.beginPath();   
+    //设置是个顶点的坐标，根据顶点制定路径   
+   for(var i = 0; i < 5; i++) {   
+   cxt.lineTo(Math.cos((18+i*72)/180*Math.PI)*R+x,
+   	-Math.sin((18+i*72)/180*Math.PI)*R+y);   
+    cxt.lineTo(Math.cos((54+i*72)/180*Math.PI)*r+x,
+    	-Math.sin((54+i*72)/180*Math.PI)*r+y); 
+    	console.log(Math.cos((54+i*72)/180*Math.PI)*r+x);  
+    }   
+    cxt.closePath();   
+    //设置边框样式以及填充颜色   
+	   cxt.lineWidth=k;   
+	    cxt.fillStyle = col;   
+	    cxt.strokeStyle =c;   
+	   cxt.lineJoin="round";  
+	   cxt.fill();
+	   cxt.stroke();   
+}
+function drawStarSky(cxt){
+	//drawRect(context,10,10,500,500,1,white,black);
+	var color=new Array('red','blue','green','yellow','gray','rgb(255,100,120)','rgb(150,100,120)','rgb(155,255,120)','rgb(125,100,230)','rgb(180,160,160)');
+	for (var i = 0; i < 200; i++) {
+	rn=parseInt(10*Math.random());
+	col=color[rn];
+	x=Math.random()*800;
+	y=Math.random()*500;
+	R=10*Math.random()+10;
+	drawStar(cxt,x,y,R/2,R,1,col,col);
+	}
+}
+function drawMoon(cxt){
+	cxt.beginPath(); 
+    cxt.moveTo(660,100);
+    //外圆
+    cxt.quadraticCurveTo(700,160,650,300);
+   	//内圆
+    cxt.quadraticCurveTo(740,200,660,100);
+	//cxt.lineWidth=2;   
+	cxt.fillStyle = "#FF00FF";   
+	cxt.strokeStyle ="#FF00FF";     
+	cxt.fill();
+	cxt.stroke(); 	
+}
+</script>
+
+</head>
+<body>
+<canvas id="canvas">您的浏览器不支持canvas！请更换最新的浏览器</canvas>
+</body>
+</html>

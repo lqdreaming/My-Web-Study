@@ -1,0 +1,36 @@
+1.Canvas基本框架
+*HTML
+<canvas id="canvas" style="width: ;height= ;"></canvas>//标签里面可以设置style，符合W3C标准.
+*Javascript 
+var canvas=document.getElementById('canvas');
+var context=canvas.getContext('2d');//使用context进行绘制
+2.基本绘图状态
+*直线
+context.moveTo(x,y);//起始位置
+context.lineTo(x,y);//终点坐标
+*弧线
+context.arc(cx,cy,r,sAng,eAng,anticlock);//cx，cy是圆心坐标；r是半径；sAng,eAng是圆弧的角度；anticlock-布尔值(表示顺时针还是逆时针作图)
+*封闭图形-隔开每次画图
+context.beginPath();//开始新的状态路径绘制
+context.closePath();//关闭此次绘制
+3.绘图样式
+context.lineWidth-线条宽度
+context.strokeStyle-绘图线条的样式
+context.fillStyle-填充的样式
+4.绘图
+context.stroke();-绘图命令
+context.fill()；-填充命令
+5.指定区域刷新
+contetx.clearRect(x,y,width,height);
+6.找到canvas画布
+context.canvas
+7.canvas画布本身的属性
+canvas.width
+canvas.height
+canvas.getContext('2d')//绘图环境
+8.绘制动画效果
+setInterval(function(){
+     render();//渲染
+     update();//数据更新
+},50);//定时器
+
