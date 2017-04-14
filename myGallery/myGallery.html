@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="utf-8">  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+	<title></title>
+	<script type="text/javascript"  src="./js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#gallery-left h4").each(function(){
+		$(this).bind("click",function(){
+			i=$(this).index()-1;
+			console.log(i);
+			$("#gallery-left h4").eq(i).addClass("active");
+			$("#gallery-left h4").eq(i).siblings().removeClass("active");
+			$(".mainPart #main").eq(i).show();
+			$(".mainPart #main").eq(i).siblings().hide();
+		})
+	})
+
+	//轮播布局
+	isShow(0);
+	function isShow(i){
+		$(".boxCon .boxone").each(function(){
+			$(".boxCon .boxone").eq(i).show();
+			$(".boxCon .boxone").eq(i).siblings().hide();
+		});
+	}
+
+	$(".iconLeft").click(function(){
+		$(".boxCon .boxone").each(function(){
+			var temp1=$(this).is(":visible");
+		if (temp1) {
+			i=$(this).index();
+		}
+		return i;
+	});
+		if (i>0) {
+		 i--;
+		}else{
+			i=0;
+		}
+		isShow(i);
+	});
+
+	$(".iconRight").click(function(){
+		$(".boxCon .boxone").each(function(){
+			var temp1=$(this).is(":visible");
+		if (temp1) {
+			i=$(this).index();
+		}
+		j=$(".boxCon .boxone").length;
+		console.log(j);
+		return i,j;
+	});
+		if (i<j) {
+		 i++;
+		}else{
+			i=j;
+		}
+		console.log(i);
+		isShow(i);
+	})
+
+	//随机播放-定时
+	setInterval(function(){
+		var boxoneIndex=parseInt(Math.random()*5);
+		console.log(boxoneIndex);
+		isShow(boxoneIndex);
+	},10000);
+	//旋转门
+	
+
+
+	//相册翻页
+	$(".boxsec div").each(function(){
+		$(".boxsec div").bind("click",function(){
+			var i=$(this).index();
+			var index1=5-$(this).index();
+			var index2=180;
+			var index3=parseFloat((index2)/3);
+				var t=null; 
+				var ang=0;
+				function rotateangle(obj){
+					ang+=index3;
+					s=100;
+					if (ang<=index2) {
+						$(".boxsec div").eq(obj).css("-webkit-transform","rotateY("+ang+"deg) translateX(-100px)")||$(".boxsec div").eq(obj).css("transform","rotateY("+ang+"deg)");
+					}else{	
+					clearInterval(t);//清除计时器	
+					}
+				}
+				t=setInterval(function(){
+					rotateangle(i);
+				},100);
+		});
+
+		$(".boxsec div").bind("contextmenu",function(){
+			var i=$(this).index();
+			var index1=5-$(this).index();
+			var index2=-180;
+			var index3=parseFloat((index2)/3);
+				var t=null; 
+				var ang1=0;
+				function rotateangle(obj){
+					ang1=ang1+index3;
+					s=100;
+					console.log(ang1);
+					console.log(index2);
+					console.log(index3);
+					if (ang1>=index2) {
+						$(".boxsec div").eq(obj).css("-webkit-transform","rotateY("+ang1+"deg) translateX(100px)")||$(".boxsec div").eq(obj).css("transform","rotateY("+ang1+"deg)");
+					}else{	
+					clearInterval(t);//清除计时器	
+					}
+				}
+				t=setInterval(function(){
+					rotateangle(i);
+				},100);
+		})	
+		});
+	//图片随机分布
+	setInterval(distribute,10000);
+	function distribute(){
+	$(".wave img").each(function(){
+		angle1=Math.random()*180;
+		dis1=Math.random()*1200;
+		dis2=Math.random()*760;
+			$(this).css('position', 'absolute').css('left', dis1+"px","z-index","-999").css('top', dis2+"px");
+		$(this).css(
+			"transform","rotateZ("+angle1+"deg)"
+			)
+	})
+	};
+})
+window.onload=function() {
+	var dataInt={
+        'date':[{
+        	'src':'./image/21.jpg',
+        	'content':'这是图片1'
+    		},{'src':'./image/22.jpg'},{'src':'./image/23.jpg'},{'src':'./image/24.jpg'},{'src':'./image/25.jpg'},{'src':'./image/26.jpg'},{'src':'./image/27.jpg'},{'src':'./image/28.jpg'},{'src':'./image/29.jpg'},{'src':'./image/30.jpg'},{'src':'./image/31.jpg'},{'src':'./image/32.jpg'},{'src':'./image/33.jpg'},{'src':'./image/34.jpg'},{'src':'./image/35.jpg'},{'src':'./image/36.jpg'},{'src':'./image/37.jpg'},{'src':'./image/38.jpg'},{'src':'./image/39.jpg'},{'src':'./image/40.jpg'},{'src':'./image/41.jpg'},{'src':'./image/42.jpg'},{'src':'./image/43.jpg'},{'src':'./image/44.jpg'},{'src':'./image/45.jpg'},{'src':'./image/46.jpg'},{'src':'./image/47.jpg'},{'src':'./image/48.jpg'},{'src':'./image/49.jpg'},{'src':'./image/50.jpg'}]
+    };
+    var box=document.getElementById("box");
+    var time1=null;
+    var poY=0;
+        setInterval(function(){
+        	w=document.body.offsetWidth;
+        	h=document.documentElement.clientHeight;
+            var le=parseInt(Math.random()*w);//随机生成位置及宽高
+            //var to=parseInt(Math.random()*570);
+            var size=parseInt(Math.random()*10+50);
+            var i=parseInt(Math.random()*dataInt.date.length);
+            oimg=dataInt.date[i];
+            ocontent=dataInt.date[0].content;
+            if(le>=(w*0.26)&&le<=(w*0.72)){
+            	createSnow(le,size,oimg);
+        	}
+        },1000);
+        
+    //生成雪花
+     var mainMidle=document.getElementById("mainMidle");
+      var mainMid=document.getElementById("mainMid");
+    function createSnow(l,s,oimg){
+        var newNode=document.createElement("div");
+         //newNode.style.height=s+"px";
+         //newNode.style.width=s+"px";
+         newNode.style.left=l+"px";
+         newNode.style.top=0+"px";
+         oimgSrc=oimg.src;
+         newNode.style.backgroundImage="url("+oimgSrc+")";
+         //newNode.style.backgroundSize="100% 100%";
+         box.appendChild(newNode);
+         startMove(newNode);
+         newNode.addEventListener( 'mousedown', function(event){
+         	  while(mainMidle.hasChildNodes()) //当div下还存在子节点时 循环继续
+    			{
+       			 	mainMidle.removeChild(mainMidle.firstChild);
+    			}
+         	mainMidle.style.backgroundImage=this.style.backgroundImage;
+         	mainMidle.style.transform="scale(1)"
+         	mainMid.style.border='10px solid #AAAAAA'; 
+         	mainMid.classList.add( 'is-open' );
+         	//alert(2);
+         	  event.stopPropagation();
+         	   event.preventDefault();
+         }); 
+         //右击事件
+         mainMidle.addEventListener( 'click', function(event){
+         	if (mainMidle.style.backgroundImage=="") {
+         		mainMidle.style.backgroundImage=newNode.style.backgroundImage;
+         	}else{
+         		mainMidle.style.backgroundImage="";
+         	}
+ 
+		});
+
+         var degree = 0;
+         var degree1=0;
+         function singleRotate(ele) {
+    	//一次增加180度
+    	degree1 =  360;
+    	degree = degree +180;
+    	//mainMid.style.transform="rotateY("+degree1+"deg)";
+    	ele.style.transform="rotateY("+degree+"deg)";
+		}
+	}
+
+    //鼠标滚轮缩放事件
+		function zoomImg(o) {
+		var zoom = parseInt(o.style.zoom,100) || 100;
+		zoom += event.wheelDelta / 2; //可适合修改
+			if (zoom > 0){
+				console.log(zoom);
+			o.style.zoom = zoom + '%';
+			}
+		}
+
+		$(document).ready(function() {
+		$(".wave img").each(function(){
+			$(this).bind("mousewheel", function() {
+				zoomImg(this);
+				return false;
+		});
+		});
+	});
+	//右击图片消失
+	document.getElementById("mainMid").oncontextmenu=function(){
+       			 	mainMid.style.background=''; 
+       			 	mainMidle.innerHTML=""; 
+       			 	mainMidle.style.backgroundImage="";
+       			 	mainMid.classList.remove('is-open');
+	}
+
+    //图片下落
+    function startMove(obj){
+        var poY=obj.offsetTop;//获取对象到顶部边宽的距离
+        var poX=obj.offsetLeft;//获取对象到顶部边宽的距离
+        var time2=null;
+        function move(){
+            poY+=5;
+            poX++;
+            obj.style.top=poY+"px";
+            if(poY>h){//当雪花超出容器时的处理事件
+            	box.removeChild(obj);//删除超出容器的节点对象
+                clearInterval(time2);//清除计时器
+            }
+        }
+        time2=setInterval(move,100);
+    }
+}
+</script>	
+<style type="text/css">
+*{margin:0;padding:0;}
+body{
+		width:1877px;
+		height:947px;  
+		transform-style:preserve-3d;
+		perspective:2000px; 
+		background:url("./image/photograph_background.jpg") no-repeat; 
+	}
+	#mainPart{
+		width:1600px; 
+		height:100%; 
+		position:absolute;
+		left:250px;top: 0;  
+	}
+	#box{
+		width:50%; 
+	}
+	#box div{
+		width:300px;
+		height:300px; 
+		cursor:pointer; 
+		transform:scale(0.3);
+		position:absolute; 
+	}
+	#gallery-left{
+		width:250px;
+		height:100%;  
+		float:left; 
+	}
+	.vat{
+		width:1500px;
+		height:947px;  
+		margin-left:45px;   
+	}
+	.boxCon{
+		width:1400px;
+		height:300px; 
+		float:left; 
+		padding-left:30px; 
+		margin-left:30px; 
+	}
+	.box1{
+	width:202px; 
+	height:300px;
+	margin:10px 10px;
+	float:left;  
+	background-color:#CCCCFF;
+	border-radius:5px; 
+	}
+	.box1 div:first-child{
+		width:201px; 
+		height:190px;
+		border:1px solid #ccc;   
+		box-shadow:0 0 6px #ccc; 
+	}
+	.boxContent{
+		width:201px;
+		height:102px;  
+		font-size:14px;
+		font-family: "华文新魏"; 
+		background-color:#DDDDDD; 
+	}
+	.box1 div img{
+		width:180px; 
+		height:180px; 
+		padding:4px 0; 
+		padding-left:10px; 
+	} 
+	.boxCon .box1 img:hover{
+		-webkit-animation: photoRotate 8s linear infinite ;
+ 	 	animation: photoRotate 8s linear infinite ;
+	}
+	.boxCon .box1 .boxContent:hover{
+		color:red; 
+		transform:rotateX(50deg); 
+	}
+	.iconLeft{
+		width:20px;
+		height:20px; 
+		margin-top:140px;
+		padding-right:20px; 
+		float:left;
+		cursor:pointer; 
+	}
+	.iconRight{
+		width:20px;
+		height:20px;  
+		margin-top: 140px; 
+		float:left; 
+		margin-left: -40px;
+		cursor:pointer; 
+	}
+	.boxsec{
+		width:450px;
+		height:370px;  
+		background-color:#DDDDDD; 
+		border-radius:10px; 
+		position:absolute; 
+		left:550px;top:450px;  
+	}
+	.boxsec div{
+		width:200px;
+		height:300px; 
+		margin-left:70px;  
+		transform-style:preserve-3d;
+		position:absolute;
+		left:50px;top:30px; 
+	}
+	#cover{
+		background: url('./image/flower.jpg');
+		font-size:24px;  
+		word-wrap:break-word;
+		word-break:normal;
+		letter-spacing:20px;  
+	}
+	#cover span{
+		width:14px; 
+		float:left; 
+		margin-left:100px; 
+		margin-top:100px; 
+		font-weight:bolder; 
+		color:#FF4500; 
+		opacity:0.7;
+		font-family: "华文新魏"; 
+	}
+	.boxsec img{
+		width:200px;
+		height:300px;  
+	}
+	.boxsec div:nth-child(1) {
+    -webkit-transform: rotateY(50deg) translateX(-100px);
+  	transform: rotateY(50deg) translateX(-100px);
+	}
+	.boxsec div:nth-child(2) {
+    -webkit-transform: rotateY(40deg) translateX(-100px);
+  	transform: rotateY(40deg) translateX(-100px);
+	}
+	.boxsec div:nth-child(3) {
+    -webkit-transform: rotateY(30deg) translateX(-100px);
+  	transform: rotateY(30deg) translateX(-100px);
+	}
+	.boxsec div:nth-child(4) {
+    -webkit-transform: rotateY(20deg) translateX(-100px);
+  	transform: rotateY(20deg) translateX(-100px);
+	}
+	.boxsec div:nth-child(5) {
+    -webkit-transform: rotateY(10deg) translateX(-100px);
+  	transform: rotateY(10deg) translateX(-100px);
+	}
+	.boxsec div:nth-child(6) {
+    -webkit-transform: rotateY(0deg) translateX(-100px);
+  	transform: rotateY(0deg) translateX(-100px);
+	} 
+@keyframes rotate-animation{
+  0% {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+  50% {
+    -webkit-transform: rotateY(90deg);
+    transform: rotateY(90deg);
+  }
+  100% {
+    -webkit-transform: rotateY(150deg);
+    transform: rotateY(150deg);
+  }
+}
+	#mainMidle{
+		width:220px;
+		height:200px;
+		margin:0 auto; 
+		margin-top:10px; 
+		transform:translateZ(100px); 
+		backface-visibility: visible; 
+		cursor:pointer;  
+		z-index:999;  
+		transform-style:preserve-3d; 
+	}
+	.mainMid{
+		width:240px;
+		height:220px; 
+		border-radius:10px; 
+		position:absolute;
+		left:500px;top:350px;  
+		z-index:999;
+		-webkit-animation: photoRotate 18s linear infinite ;
+ 	 	animation: photoRotate 18s linear infinite ;
+		transform-style:preserve-3d;
+	}
+
+	/*右击*/
+	.is-open {
+	  transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  -webkit-transform-style: preserve-3d;
+	          transform-style: preserve-3d;
+	  -webkit-transform-origin: 50% 50%;
+	      -ms-transform-origin: 50% 50%;
+	          transform-origin: 50% 50%;
+	  text-align: center;
+	}
+	#gallery-left{
+		height:947px; 
+		background-image:url("./image/cartoon_vector.jpg"); 
+	}
+	#gallery-left h3{
+		font-size:38px; 
+		height:50px;
+		margin-top:10px; 
+		line-height:50px; 
+		text-align:center; 
+		 background-image:
+          -webkit-linear-gradient(left, blue,#66FFFF 10%, #CC00FF 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+         /*-webkit-linear-gradient(left, blue, #E93EFF 25%, blue  50%, #E93EFF 75%,blue 100%);*/
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        -webkit-background-size: 200% 100%;
+        -webkit-animation:masked-animation 4s linear infinite; 
+	}
+	@keyframes masked-animation {
+    0%  {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+	}
+	#gallery-left h4{
+		height:80px; 
+		line-height: 80px;
+		font-size:24px; 
+		margin-top:40px; 
+		padding-left:20px; 
+		background-image:url("./image/star.jpg");
+		filter:shadow(color=#cc00ff,strength=6,direction=113);
+		color: #ff00ff;
+		font-family: "华文新魏";
+		-webkit-transform-style: preserve-3d;
+	    transform-style: preserve-3d;
+	    -webkit-animation:masked-animation 4s linear infinite; 
+	}
+	#gallery-left h4:hover{
+	 		/*animation-delay: 2s;	
+		 -webkit-animation:photoRotate 6s linear forwards;
+		 animation-iteration-count:0;*/
+		 color:#9400D3; 
+		 transform:rotateY(30deg); 
+	}
+	.active{
+		color:#9400D3; 
+		 transform:rotateY(30deg); 
+	}
+	@keyframes mainRotate{
+  0% {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+  50% {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+</style>
+<style type="text/css">
+.demo-perspective-photo {
+  position: absolute;
+  left:300px; 
+  width: 200px;
+  height: 200px;
+  zoom: 2;
+}
+
+.demo-perspective-photo #stage {
+  width: 200px;
+  height: 200px;
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  perspective: 800px;
+  position: relative;
+}
+
+.demo-perspective-photo #container {
+  position: absolute;
+  left: 0px;
+  top: 100px;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-animation: photoRotate 18s linear infinite ;
+ 	 	animation: photoRotate 18s linear infinite ;
+}
+.demo-perspective-photo .example {
+  width: 150px;
+  height: 120px;
+  border:5px solid #fff; 
+	border-radius:5px; 
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+}
+
+.demo-perspective-photo .example:nth-child(1) {
+  -webkit-transform: rotateY(0deg) translateZ(100px);
+  transform: rotateY(0deg) translateZ(150px);
+}
+
+.demo-perspective-photo .example:nth-child(2) {
+  -webkit-transform: rotateY(60deg) translateZ(150px);
+  transform: rotateY(60deg) translateZ(150px);
+}
+
+.demo-perspective-photo .example:nth-child(3) {
+  -webkit-transform: rotateY(120deg) translateZ(150px);
+  transform: rotateY(120deg) translateZ(150px);
+}
+
+.demo-perspective-photo .example:nth-child(4) {
+  -webkit-transform: rotateY(180deg) translateZ(150px);
+  transform: rotateY(180deg) translateZ(150px);
+}
+
+.demo-perspective-photo .example:nth-child(5) {
+  -webkit-transform: rotateY(240deg) translateZ(150px);
+  transform: rotateY(240deg) translateZ(150px);
+}
+
+.demo-perspective-photo .example:nth-child(6) {
+  -webkit-transform: rotateY(300deg) translateZ(150px);
+  transform: rotateY(300deg) translateZ(150px);
+}
+@keyframes photoRotate {
+  0% {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+  16.7% {
+    -webkit-transform: rotateY(60deg);
+    transform: rotateY(60deg);
+  }
+  33.3% {
+    -webkit-transform: rotateY(120deg);
+    transform: rotateY(120deg);
+  }
+  50% {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  66.7% {
+    -webkit-transform: rotateY(240deg);
+    transform: rotateY(240deg);
+  }
+  83.3% {
+    -webkit-transform: rotateY(300deg);
+    transform: rotateY(300deg);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+}
+
+.wave{
+	width:1600px; 
+	margin-left:50px;
+	margin-top:40px;   
+}
+.wave .example{
+	width:200px;
+	height:180px;  
+	border:10px solid #fff; 
+	border-radius:5px; 
+	position: absolute;
+	z-index: -999;
+}
+.wave img:hover{
+	-webkit-animation: photoRotate 18s linear infinite ;
+ 	 	animation: photoRotate 18s linear infinite ;
+}
+	.imageRotate img{
+		width:80px;
+		height:80px; 
+		border:5px solid #FFE4B5;
+		border-radius:2px;   
+	}
+	.imageRotate{
+		width:260px;
+		height:230px;  
+		border-radius:10px; 
+		position:relative; 
+		left:500px;top:350px; 
+		-webkit-animation: photoRotate1 18s linear infinite ;
+ 	 	animation: photoRotate1 18s linear infinite ;
+	}
+	.imageRotate div{
+		width:120px;
+		height:120px; 
+		margin-left:70px;  
+		transform-style:preserve-3d;
+		/*-webkit-animation: photoRotate 18s linear infinite ;
+ 	 	animation: photoRotate 18s linear infinite ;*/
+	}
+	@keyframes photoRotate1 {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+  }
+  16.7% {
+    -webkit-transform: rotateZ(60deg);
+    transform: rotateZ(60deg);
+  }
+  33.3% {
+    -webkit-transform: rotateZ(120deg);
+    transform: rotateZ(120deg);
+  }
+  50% {
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+  }
+  66.7% {
+    -webkit-transform: rotateZ(240deg);
+    transform: rotateZ(240deg);
+  }
+  83.3% {
+    -webkit-transform: rotateZ(300deg);
+    transform: rotateZ(300deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+	.imageRotate div:nth-child(1) {
+    	position:absolute;
+    	left:80px;top:-280px;   
+	}
+	.imageRotate div:nth-child(2) {
+    	position:absolute;
+    	left:-20px;top:-220px; 
+	}
+	.imageRotate div:nth-child(3) {
+	    position:absolute;
+	    left:-120px;top:-140px; 
+	}
+	.imageRotate div:nth-child(4) {
+     	position:absolute;
+	    left:-220px;top:-50px; 
+	}
+	.imageRotate div:nth-child(5) {
+    	position:absolute;
+	    left:-270px;top:50px;
+	}
+	.imageRotate div:nth-child(6) {
+    	position:absolute;
+	    left:-220px;top:160px;
+	} 
+	.imageRotate div:nth-child(7) {
+    	position:absolute;
+	    left:-130px;top:260px;
+	} 
+	.imageRotate div:nth-child(8) {
+    	position:absolute;
+	    left:-20px;top:340px;
+	} 
+	.imageRotate div:nth-child(9) {
+    	position:absolute;
+	    left:80px;top:400px;
+	} 
+	.imageRotate div:nth-child(10) {
+    	position:absolute;
+	    left:180px;top:340px;
+	} 
+	.imageRotate div:nth-child(11) {
+    	position:absolute;
+	    left:280px;top:250px;
+	} 
+	.imageRotate div:nth-child(12) {
+    	position:absolute;
+	   left:380px;top:160px;
+	} 
+	.imageRotate div:nth-child(13) {
+    	position:absolute;
+	    left:450px;top:50px;
+	} 
+	.imageRotate div:nth-child(14) {
+    	position:absolute;
+	    left:380px;top:-50px;
+	} 
+	.imageRotate div:nth-child(15) {
+    	position:absolute;
+	    left:285px;top:-140px;	} 
+
+	.imageRotate div:nth-child(16) {
+    	position:absolute;
+	    left:180px;top:-220px;
+	} 
+	.imageRotate div:nth-child(17) {
+    	position:absolute;
+	    left:450px;top:50px;
+	} 
+</style>
+</head>
+<body>
+	<div id="gallery-left">
+		<h3>我的画廊</h3>
+		<h4 class="active">动态画廊</h4>
+		<h4>旋转木马</h4>
+		<h4>轮播相册</h4>
+	</div>
+	<!--动态画廊-->
+	<div class="mainPart" id="mainPart">
+		<div class="main" id="main">
+			<div class="imageRotate" id="imageRotate">
+				<div><img  class='example' src="./image/37.jpg"></div>
+		      	<div><img  class='example' src="./image/36.jpg"></div>
+		      	<div><img  class='example' src="./image/35.jpg"></div>
+		      	<div><img  class='example' src="./image/34.jpg"></div>
+		      	<div><img  class='example' src="./image/33.jpg"></div>
+		      	<div><img  class='example' src="./image/32.jpg"></div>
+		      	<div><img  class='example' src="./image/37.jpg"></div>
+		      	<div><img  class='example' src="./image/36.jpg"></div>
+		      	<div><img  class='example' src="./image/35.jpg"></div>
+		      	<div><img  class='example' src="./image/34.jpg"></div>
+		      	<div><img  class='example' src="./image/33.jpg"></div>
+		      	<div><img  class='example' src="./image/32.jpg"></div>
+		      	<div><img  class='example' src="./image/42.jpg"></div>
+		      	<div><img  class='example' src="./image/47.jpg"></div>
+		      	<div><img  class='example' src="./image/46.jpg"></div>
+		      	<div><img  class='example' src="./image/45.jpg"></div>
+			</div>
+			<div class="mainMid" id="mainMid">
+				<div class="mainMidle" id="mainMidle"></div>
+			</div>
+		 	<div class="box" id="box"></div>
+		</div>
+		<!--旋转木马-->
+		<div id="main" style="display: none;">
+		<div class="demo-perspective-photo" style="text-align:center; ">
+	      <div id="stage">
+	        <div id="container">
+		        <img  class='example' src="./image/22.jpg">
+				<img  class='example' src="./image/23.jpg">
+				<img  class='example' src="./image/24.jpg">
+				<img  class='example' src="./image/25.jpg">
+				<img  class='example' src="./image/26.jpg">
+				<img  class='example' src="./image/27.jpg">
+	          <!-- 此处使用div代替 -->
+	          <!--  <div class='example' style=""></div>
+	          <div class='example' style=""></div>
+	          <div class='example' style=""></div>
+	          <div class='example' style=""></div>
+	          <div class='example' style=""></div>
+	          <div class='example' style=""></div>-->
+	        </div>
+	      </div>
+	    </div>
+	    <div class="wave" id="wave">
+	      	<img  class='example' src="./image/37.jpg">
+	      	<img  class='example' src="./image/36.jpg">
+	      	<img  class='example' src="./image/35.jpg">
+	      	<img  class='example' src="./image/34.jpg">
+	      	<img  class='example' src="./image/33.jpg">
+	      	<img  class='example' src="./image/32.jpg">
+	      	<img  class='example' src="./image/41.jpg">
+	      	<img  class='example' src="./image/42.jpg">
+	      	<img  class='example' src="./image/43.jpg">
+	      	<img  class='example' src="./image/44.jpg">
+	      </div>
+	    </div>
+	    <!--轮播相册-->
+	    <div id="main" class="vat" id="vat" style="display:none;">
+	    	<div class="iconLeft">
+		    	<img src="./image/left_hover.png">
+		    </div>
+		    <div class="boxCon">
+			    <div class="boxone">
+				    <div class="box1">
+						<div class="boxImg"><img src="./image/0.jpg"></div>
+						<div class="boxContent">我的</div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/1.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/2.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/3.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/3.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/3.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+				</div>
+				<div class="boxone">
+					<div class="box1">
+						<div>
+							<img src="./image/3.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/4.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/5.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/3.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/4.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/5.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+				</div>
+				<div class="boxone">
+					<div class="box1">
+						<div>
+							<img src="./image/6.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/7.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/8.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/6.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/7.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/8.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+				</div>
+				<div class="boxone">
+					<div class="box1">
+						<div>
+							<img src="./image/9.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/10.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/11.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/9.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/10.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/11.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+				</div>
+				<div class="boxone">
+					<div class="box1">
+						<div>
+							<img src="./image/12.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div>
+							<img src="./image/13.jpg">
+						</div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div><img src="./image/14.jpg"></div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div><img src="./image/12.jpg"></div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div><img src="./image/13.jpg"></div>
+						<div class="boxContent"></div>
+					</div>
+					<div class="box1">
+						<div><img src="./image/14.jpg"></div>
+						<div class="boxContent"></div>
+					</div>
+				</div>
+			</div>
+			<div class="iconRight">
+				<img src="./image/right_hover.png">
+			</div>
+			<div class="boxsec">
+				<div><img src="./image/3.jpg"></div>
+				<div><img src="./image/13.jpg"></div>
+				<div><img src="./image/12.jpg"></div>
+				<div><img src="./image/1.jpg"></div>
+				<div><img src="./image/2.jpg"></div>
+				<div id="cover"><span>我的相册</span></div>
+			</div>
+		</div>
+    </div>
+</body>
+</html>
